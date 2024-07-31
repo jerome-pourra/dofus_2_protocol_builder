@@ -1,0 +1,15 @@
+{
+    "name": "dofus-builder",
+    "version": "0.0.1",
+    "description": "Traducteur du protocol du jeu : *.as >>> *.ts",
+    "main": "dist/main.js",
+    "scripts": {
+        "start": "tsc && node dist/main.js"
+    },
+    "author": "Jérôme Pourra",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/node": "^20.10.7",
+        "typescript": "^5.3.3"
+    }
+}
