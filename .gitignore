@@ -2,13 +2,13 @@
 dist/
 node_modules/
 
-# Ignore tous les fichiers et dossiers sous __exported
-/__exported/
-
-# Ignore tous les fichiers et dossiers sous __imported
+/__exported/**
 /__imported/**
 
-# Ne pas ignorer le dossier spécifique et son contenu
+# Tsconfig
+!/__imported/scripts/tsconfig.json
+
+# Jerakine
 !/__imported/scripts/
 !/__imported/scripts/com/
 !/__imported/scripts/com/ankamagames/

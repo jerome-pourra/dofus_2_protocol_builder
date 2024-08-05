@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+		"noEmit": true,
+        "rootDir": "./",
+        "target": "ES6",
+		"module": "CommonJS",
+    },
+    "include": ["./**/*.ts"],
+}
