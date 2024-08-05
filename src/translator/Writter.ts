@@ -69,6 +69,7 @@ export class Writter {
         content += `${this.buildProtocol()}`;
         content += `${this.buildVarList()}`;
         content += `${this.buildConstructor()}`;
+        content += `${this.buildInitializer()}`;
         content += `${this.buildPack()}`;
         content += `${this.buildUnpack()}`;
         content += `${this.buildDeserialize()}`;
@@ -148,6 +149,16 @@ export class Writter {
         content += `    }\n`;
         content += `\n`;
         return content;
+    }
+
+    private buildInitializer() {
+        let content = "";
+        content += `    ${this.translator.initializer.method}\n`;
+        content += `    {\n`;
+        content += `${this.translator.initializer.content ?? ""}\n`;
+        content += `    }\n`;
+        content += `\n`;
+        return content
     }
 
     private buildPack() {

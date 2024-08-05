@@ -7,6 +7,7 @@ import { ByteBoxes } from "./ByteBoxes";
 import { BASE_DIR_AS, INCLUDE_IMPORTS } from "../constants";
 import { TBrowserFileData } from "../FilesBrowser";
 import path from "path";
+import { Initializer } from "./Initializer";
 
 export type TypePublicVar = { name: string, type?: string, typeVector?: string, subTypeVector?: string, value?: string };
 export type TypeImport = { class: string, pathList: Array<string> };
@@ -26,6 +27,7 @@ export class Translator extends TranslatorTypes {
 	public construct: Constructor;
     public pack?: string;
     public unpack?: string;
+    public initializer?: Initializer;
 	public deserializer: Deserializer;
 	public byteBoxes: ByteBoxes;
 
@@ -41,6 +43,7 @@ export class Translator extends TranslatorTypes {
 		this.setProtocol();
 		this.setVarList();
 		this.setConstructor();
+        this.setInitializer();
         // this.setPack();
         this.setUnpack();
 		this.setDeserializeAs();
@@ -93,14 +96,14 @@ export class Translator extends TranslatorTypes {
 
 	}
 
-	private addImport(className: string, pathList: Array<string> = []) {
+	public addImport(className: string, pathList: Array<string> = []) {
 		this.importList.push({
 			class: className,
 			pathList: pathList,
 		});
 	}
 
-	private isImported(className: string): boolean {
+	public isImported(className: string): boolean {
 		for (let i = 0; i < this.importList.length; i++) {
 			let importItem = this.importList[i];
 			if (importItem.class === className) {
@@ -213,7 +216,7 @@ export class Translator extends TranslatorTypes {
 
 	public setDeserializeAs() {
 
-		let regexp = new RegExp(/public\s+function\s+deserializeAs_/);
+		let regexp = new RegExp(`public\\s+function\\s+deserializeAs_${this.class}`, "g");
 		let matches = regexp.exec(this.content);
 
 		if (matches !== null) {
@@ -258,6 +261,24 @@ export class Translator extends TranslatorTypes {
             let content = GetBracketContent(this.content, matches.index);
             this.unpack = Indent(content, 2);
         }
+
+    }
+
+    public setInitializer() {
+
+        let regexp = new RegExp(`public\\s+function\\s+init${this.class}\\((.*)\\)\\s*:\\s${this.class}`, "g");
+		let matches = regexp.exec(this.content);
+        // console.log(matches[1]);
+        
+
+		if (matches !== null) {
+			let content = GetBracketContent(this.content, matches.index);
+			this.initializer = new Initializer(matches[1], content, this);
+            // console.log(this.initializer);
+            
+		} else {
+			console.error("ProtocolTranslator.setInitializer() -> aucune méthode d'initialisation n'a été trouvé fichier:" + this.fileData.fullpath);
+		}
 
     }
 

@@ -34,9 +34,9 @@ export function GetBracketContent(content: string, startAt?: number) {
         content = content.slice(startAt);
     }
 
-    let result = null;
-    let level = 0;
-    let start = -1;
+    let result: string = null;
+    let level: number = 0;
+    let start: number = -1;
 
     for (let i = 0; i < content.length; i++) {
 
@@ -59,7 +59,7 @@ export function GetBracketContent(content: string, startAt?: number) {
 
 }
 
-export function Indent(content: string, indentLvl: number = 1, separator: string = "\r\n") {
+export function Indent(content: string, indentLvl: number = 1, separator: string = "\n") {
 
     let indentValue = "    ";
     let indentRegex = new RegExp(/^\s*\{\s*$/);
