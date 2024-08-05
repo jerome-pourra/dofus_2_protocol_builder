@@ -1,4 +1,16 @@
-__*/
 *.txt
 dist/
 node_modules/
+
+# Ignore tous les fichiers et dossiers sous __exported
+/__exported/
+
+# Ignore tous les fichiers et dossiers sous __imported
+/__imported/**
+
+# Ne pas ignorer le dossier spécifique et son contenu
+!/__imported/scripts/
+!/__imported/scripts/com/
+!/__imported/scripts/com/ankamagames/
+!/__imported/scripts/com/ankamagames/jerakine/
+!/__imported/scripts/com/ankamagames/jerakine/**
