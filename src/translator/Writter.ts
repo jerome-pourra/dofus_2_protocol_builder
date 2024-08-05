@@ -72,6 +72,8 @@ export class Writter {
         content += `${this.buildInitializer()}`;
         content += `${this.buildPack()}`;
         content += `${this.buildUnpack()}`;
+        content += `${this.buildSerialize()}`;
+        content += `${this.buildSerializeAsClass()}`;
         content += `${this.buildDeserialize()}`;
         content += `${this.buildDeserializeByteBoxes()}`;
         content += `${this.buildDeserializeAsClass()}`;
@@ -184,6 +186,27 @@ export class Writter {
         }
         return content;
     }
+
+    private buildSerialize() {
+        let content = "";
+        content += `    public serialize(output: ICustomDataOutput)\n`;
+        content += `    {\n`;
+        content += `        this.serializeAs_${this.translator.class}(output);\n`;
+        content += `    }\n`;
+        content += `\n`;
+        return content;
+    }
+
+    private buildSerializeAsClass() {
+        let content = "";
+        content += `    public serializeAs_${this.translator.class}(output: ICustomDataOutput)\n`;
+        content += `    {\n`;
+        // TODO: Implement serializeAsClass
+        content += `    }\n`;
+        content += `\n`;
+        return content;
+    }
+
 
     private buildDeserialize() {
         let content = "";
