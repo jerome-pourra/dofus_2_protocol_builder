@@ -5,7 +5,7 @@ export class ProtocolTypeManager {
 	private static readonly _types: Array<{ new(): any }> = Array<{ new(): any }>();
 	
 	static {
-		"__IDS__"
+"__IDS__"
 	}
 
 	public static getInstance<T>(base: { new(): T }, typeId: number): T {
