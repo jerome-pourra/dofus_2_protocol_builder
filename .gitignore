@@ -5,9 +5,6 @@ node_modules/
 /__exported/**
 /__imported/**
 
-# Tsconfig
-!/__imported/scripts/tsconfig.json
-
 # Jerakine
 !/__imported/scripts/
 !/__imported/scripts/com/
