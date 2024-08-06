@@ -17,9 +17,12 @@ export abstract class NetworkMessage implements INetworkMessage {
         this._instance_id = ++NetworkMessage.GLOBAL_INSTANCE_ID;
     }
 
-    public abstract getMessageId(): number;
     public abstract pack(param1: ICustomDataOutput): void;
     public abstract unpack(param1: ICustomDataInput, param2: number): void;
+
+    public getMessageId(): number {
+        throw new Error("Abstract method call");
+    }
 
     public writePacket(output: ICustomDataOutput, id: number, data: CustomDataWrapper): void {
 
