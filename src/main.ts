@@ -1,31 +1,12 @@
+import fs from "fs";
 import { Translator } from "./translator/Translator";
 import { TranslatorTypes } from "./translator/TranslatorTypes";
 import { FilesBrowser } from "./FilesBrowser";
-import { BASE_DIR_AS, BASE_DIR_TS, E_DIR_TYPES, INCLUDE_IMPORTS_PATH, MESSAGE_LIST, TYPES_LIST } from "./constants";
+import { BASE_DIR_AS, BASE_DIR_TS, E_DIR_TYPES, MESSAGE_LIST, TYPES_LIST } from "./constants";
 import { Writter } from "./translator/Writter";
-import path from "path";
 import { GetRelativePath } from "./functions";
-import fs from "fs";
-
-// let base = BASE_DIR_AS + "/scripts/"
-// let fullBaseFrom = base + "com/ankamagames/dofus/network/types/game/achievement/AchievementStartedObjective.as";
-// let fullBaseTo = base + "com/ankamagames/dofus/network/types/game/achievement/Blabla.ts";
-
-// // let dir = path.dirname(base + "com/ankamagames/dofus/network/types/game/achievement/AchievementStartedObjective.as");
-// let rel = GetRelativePath(fullBaseFrom, fullBaseTo);
-// console.log(rel);
-
-// let relPath = GetRelativePath(BASE_DIR_NORMALIZED + "/scripts/com/ankamagames/dofus/network/types/game/achievement/AchievementStartedObjective.as", INCLUDE_IMPORTS_PATH.INetworkMessage);
-// console.log(relPath);
-// new FilesBrowser().browseDirectory(BASE_DIR_AS + "/scripts/com/ankamagames/dofus/network/messages/common/basic");
-// process.exit();
-
-
-// __imported/scripts/com/ankamagames/dofus/network/messages/game/alliance/summary/AllianceSummaryRequestMessage.ts
 
 let filesBrowser = new FilesBrowser();
-// let filesList = filesBrowser.browseDirectory(BASE_DIR_AS + "/scripts/com/ankamagames/dofus/network/types/game/context/fight/");
-// let filesList = filesBrowser.browseDirectory(BASE_DIR_AS + "/scripts/com/ankamagames/dofus/network/messages/common/basic");
 let filesList = filesBrowser.browseDirectory(BASE_DIR_AS + "/scripts/com/ankamagames/dofus/network/");
 
 filesList.forEach(file => {
@@ -57,18 +38,17 @@ const TEMPLATES_INFOS = [
 TEMPLATES_INFOS.forEach(templateInfos => {
 
 	let content = fs.readFileSync(templateInfos.path, "utf-8");
-	let replaceIMPORTS = "";
-	let replaceIDS = "";
+	let replaceImports: Array<string> = new Array<string>();
+	let replaceIds: Array<string> = new Array<string>();
 
 	templateInfos.associated.forEach(data => {
 		let importFrom = GetRelativePath("__exported/scripts/com/ankamagames/dofus/network", data.path);
-		replaceIMPORTS += `import { ${data.class} } from "${importFrom}";\n`;
-		replaceIDS += `\t\tthis._types[${data.id}] = ${data.class};\n`;
+		replaceImports.push(`import { ${data.class} } from "${importFrom}";`);
+		replaceIds.push(`\t\tthis._types[${data.id}] = ${data.class};`);
 	});
 
-	content = content.replace(/"__IMPORTS__"/, replaceIMPORTS);
-	content = content.replace(/"__IDS__"/, replaceIDS);
-	// console.log(content, replaceIMPORTS, replaceIDS);
+	content = content.replace(/"__IMPORTS__"/, replaceImports.join("\n"));
+	content = content.replace(/"__IDS__"/, replaceIds.join("\n"));
 	
 	if (!fs.existsSync(BASE_DIR_TS + "/scripts/com/ankamagames/dofus/network")) {
 		fs.mkdirSync(BASE_DIR_TS + "/scripts/com/ankamagames/dofus/network", { recursive: true });

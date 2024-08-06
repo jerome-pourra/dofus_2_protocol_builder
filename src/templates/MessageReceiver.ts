@@ -1,4 +1,5 @@
 "__IMPORTS__"
+
 // @ts-ignore
 import { ICustomDataInput } from "../../../../ICustomDataInput";
 // @ts-ignore
@@ -9,7 +10,7 @@ export class MessageReceiver {
 	private static readonly _types: Array<new () => INetworkMessage> = Array<new () => INetworkMessage>();
 
 	static {
-		"__IDS__"
+"__IDS__"
 	}
 
     public static getType(id: number): string {
