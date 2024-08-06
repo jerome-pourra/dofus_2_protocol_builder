@@ -46,8 +46,6 @@ export class Translator extends TranslatorTypes {
 		this.setVarList();
 		this.setConstructor();
         this.setInitializer();
-        // this.setPack();
-        this.setUnpack();
         this.setSerializeAs();
 		this.setDeserializeAs();
 		this.setDeserializeByteBoxes();
@@ -259,42 +257,14 @@ export class Translator extends TranslatorTypes {
 
 	}
 
-    public setPack() {
-
-        let regexp = new RegExp(/override\s+public\s+function\s+pack/);
-        let matches = regexp.exec(this.content);
-
-        if (matches !== null) {
-            let content = GetBracketContent(this.content, matches.index);
-            this.pack = Indent(content, 2);
-        }
-
-    }
-
-    public setUnpack() {
-
-        let regexp = new RegExp(/override\s+public\s+function\s+unpack/);
-        let matches = regexp.exec(this.content);
-
-        if (matches !== null) {
-            let content = GetBracketContent(this.content, matches.index);
-            this.unpack = Indent(content, 2);
-        }
-
-    }
-
     public setInitializer() {
 
         let regexp = new RegExp(`public\\s+function\\s+init${this.class}\\((.*)\\)\\s*:\\s${this.class}`, "g");
 		let matches = regexp.exec(this.content);
-        // console.log(matches[1]);
-        
 
 		if (matches !== null) {
 			let content = GetBracketContent(this.content, matches.index);
 			this.initializer = new Initializer(matches[1], content, this);
-            // console.log(this.initializer);
-            
 		} else {
 			console.error("ProtocolTranslator.setInitializer() -> aucune méthode d'initialisation n'a été trouvé fichier:" + this.fileData.fullpath);
 		}

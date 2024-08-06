@@ -200,7 +200,9 @@ export class Writter{
         if (this.translator.fileData.type == E_DIR_TYPES.MESSAGES) {
             content += `    public override pack(output: ICustomDataOutput)\n`;
             content += `    {\n`;
-            content += `${this.translator.pack ?? ""}\n`;
+            content += `        let data: CustomDataWrapper = new CustomDataWrapper();\n`;
+            content += `        this.serialize(data);\n`;
+            content += `        this.writePacket(output, this.getMessageId(), data);\n`;
             content += `    }\n`;
             content += `\n`;
         }
@@ -212,7 +214,7 @@ export class Writter{
         if (this.translator.fileData.type == E_DIR_TYPES.MESSAGES) {
             content += `    public override unpack(input: ICustomDataInput, length: number)\n`;
             content += `    {\n`;
-            content += `${this.translator.unpack ?? ""}\n`;
+            content += `        this.deserialize(input);\n`;
             content += `    }\n`;
             content += `\n`;
         }
