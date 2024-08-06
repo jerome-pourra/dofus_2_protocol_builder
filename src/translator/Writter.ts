@@ -73,8 +73,8 @@ export class Writter{
         content += `${this.buildInitializer()}`;
         content += `${this.buildPack()}`;
         content += `${this.buildUnpack()}`;
-        // content += `${this.buildSerialize()}`;
-        // content += `${this.buildSerializeAsClass()}`;
+        content += `${this.buildSerialize()}`;
+        content += `${this.buildSerializeAsClass()}`;
         content += `${this.buildDeserialize()}`;
         content += `${this.buildDeserializeByteBoxes()}`;
         content += `${this.buildDeserializeAsClass()}`;

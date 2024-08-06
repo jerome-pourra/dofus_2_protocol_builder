@@ -49,30 +49,30 @@ filesList.forEach(file => {
 // console.log("Protocol list : ", TYPES_LIST);
 console.log("Unknown types : ", TranslatorTypes.Undefined);
 
-// const TEMPLATES_INFOS = [
-// 	{name: "MessageReceiver.ts", path: "src/templates/MessageReceiver.ts", associated: MESSAGE_LIST},
-// 	{name: "ProtocolTypeManager.ts", path: "src/templates/ProtocolTypeManager.ts", associated: TYPES_LIST},
-// ];
+const TEMPLATES_INFOS = [
+	{name: "MessageReceiver.ts", path: "src/templates/MessageReceiver.ts", associated: MESSAGE_LIST},
+	{name: "ProtocolTypeManager.ts", path: "src/templates/ProtocolTypeManager.ts", associated: TYPES_LIST},
+];
 
-// TEMPLATES_INFOS.forEach(templateInfos => {
+TEMPLATES_INFOS.forEach(templateInfos => {
 
-// 	let content = fs.readFileSync(templateInfos.path, "utf-8");
-// 	let replaceIMPORTS = "";
-// 	let replaceIDS = "";
+	let content = fs.readFileSync(templateInfos.path, "utf-8");
+	let replaceIMPORTS = "";
+	let replaceIDS = "";
 
-// 	templateInfos.associated.forEach(data => {
-// 		let importFrom = GetRelativePath("__exported/scripts/com/ankamagames/dofus/network", data.path);
-// 		replaceIMPORTS += `import { ${data.class} } from "${importFrom}";\n`;
-// 		replaceIDS += `\t\tthis._types[${data.id}] = ${data.class};\n`;
-// 	});
+	templateInfos.associated.forEach(data => {
+		let importFrom = GetRelativePath("__exported/scripts/com/ankamagames/dofus/network", data.path);
+		replaceIMPORTS += `import { ${data.class} } from "${importFrom}";\n`;
+		replaceIDS += `\t\tthis._types[${data.id}] = ${data.class};\n`;
+	});
 
-// 	content = content.replace(/"__IMPORTS__"/, replaceIMPORTS);
-// 	content = content.replace(/"__IDS__"/, replaceIDS);
-// 	// console.log(content, replaceIMPORTS, replaceIDS);
+	content = content.replace(/"__IMPORTS__"/, replaceIMPORTS);
+	content = content.replace(/"__IDS__"/, replaceIDS);
+	// console.log(content, replaceIMPORTS, replaceIDS);
 	
-// 	if (!fs.existsSync(BASE_DIR_TS + "/scripts/com/ankamagames/dofus/network")) {
-// 		fs.mkdirSync(BASE_DIR_TS + "/scripts/com/ankamagames/dofus/network", { recursive: true });
-// 	}
-// 	fs.writeFileSync(BASE_DIR_TS + "/scripts/com/ankamagames/dofus/network/" + templateInfos.name, content);
+	if (!fs.existsSync(BASE_DIR_TS + "/scripts/com/ankamagames/dofus/network")) {
+		fs.mkdirSync(BASE_DIR_TS + "/scripts/com/ankamagames/dofus/network", { recursive: true });
+	}
+	fs.writeFileSync(BASE_DIR_TS + "/scripts/com/ankamagames/dofus/network/" + templateInfos.name, content);
 
-// });
+});
