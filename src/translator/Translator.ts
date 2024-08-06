@@ -48,7 +48,7 @@ export class Translator extends TranslatorTypes {
         this.setInitializer();
         // this.setPack();
         this.setUnpack();
-        this.setSerializeAs();
+        // this.setSerializeAs();
 		this.setDeserializeAs();
 		this.setDeserializeByteBoxes();
 
