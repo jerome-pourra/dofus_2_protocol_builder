@@ -252,6 +252,15 @@ export class CustomBuffer implements IDataInput, IDataOutput {
         throw new Error("Method not implemented.");
     }
 
+    public writeBytes(buffer: CustomBuffer, offset: number = 0, length: number = 0): void {
+        if (length === 0) {
+            length = buffer.length - offset;
+        }
+        this.allocate(length);
+        buffer._buffer.copy(this._buffer, this._writeOffset, offset, offset + length);
+        this._writeOffset += length;
+    }
+
     // PROTECTED WRITE METHODS
 
     protected writeInt8(value: number): void {
