@@ -5,7 +5,7 @@
     "main": "dist/main.js",
     "scripts": {
         "start": "tsc && node dist/main.js",
-        "build-imported": "tsc -p tsconfig-test.json"
+        "build": "cd __imported && tsc"
     },
     "author": "Jérôme Pourra",
     "license": "ISC",
