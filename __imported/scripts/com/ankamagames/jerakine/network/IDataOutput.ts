@@ -1,3 +1,5 @@
+import { CustomBuffer } from "./CustomBuffer";
+
 export interface IDataOutput {
 
     writeBoolean(param1: boolean): void;
@@ -12,5 +14,7 @@ export interface IDataOutput {
     writeLong(param1: bigint): void;
     writeUnsignedLong(param1: bigint): void;
     writeUTF(param1: string): void;
+
+    writeBytes(param1: CustomBuffer, param2: number, param3: number): void;
 
 }
