@@ -4,7 +4,8 @@
     "description": "Traducteur du protocol du jeu : *.as >>> *.ts",
     "main": "dist/main.js",
     "scripts": {
-        "start": "tsc && node dist/main.js"
+        "start": "tsc && node dist/main.js",
+        "build": "cd __imported && tsc"
     },
     "author": "Jérôme Pourra",
     "license": "ISC",

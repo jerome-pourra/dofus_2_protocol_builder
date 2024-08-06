@@ -13,7 +13,6 @@ export const EXCLUDE_FILES = [
 
 export const INCLUDE_IMPORTS = [
 
-	"CustomDataWrapper",
 	"ICustomDataInput",
 	"ICustomDataOutput",
 	"INetworkMessage",
@@ -33,7 +32,6 @@ export const INCLUDE_IMPORTS = [
 
 export const INCLUDE_IMPORTS_PATH = {
 
-    CustomDataWrapper: "com/ankamagames/jerakine/network/",
     ICustomDataInput: "com/ankamagames/jerakine/network/",
     ICustomDataOutput: "com/ankamagames/jerakine/network/",
 	INetworkMessage: "com/ankamagames/jerakine/network/",

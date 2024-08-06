@@ -1,4 +1,16 @@
-__*/
 *.txt
 dist/
 node_modules/
+
+/__exported/**
+/__imported/**
+
+!/__imported/tsconfig.json
+
+# Jerakine
+!/__imported/
+!/__imported/scripts/
+!/__imported/scripts/com/
+!/__imported/scripts/com/ankamagames/
+!/__imported/scripts/com/ankamagames/jerakine/
+!/__imported/scripts/com/ankamagames/jerakine/**

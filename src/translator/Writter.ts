@@ -3,7 +3,7 @@ import { Translator, TypePublicVar } from "./Translator";
 import { GetRelativePath } from "../functions";
 import { BASE_DIR_AS, BASE_DIR_TS, E_DIR_TYPES, INCLUDE_IMPORTS_PATH } from "../constants";
 
-export class Writter {
+export class Writter{
 
     public content: string;
     public translator: Translator;
@@ -69,9 +69,12 @@ export class Writter {
         content += `${this.buildProtocol()}`;
         content += `${this.buildVarList()}`;
         content += `${this.buildConstructor()}`;
+        content += `${this.buildProtocolId()}`;
         content += `${this.buildInitializer()}`;
         content += `${this.buildPack()}`;
         content += `${this.buildUnpack()}`;
+        content += `${this.buildSerialize()}`;
+        content += `${this.buildSerializeAsClass()}`;
         content += `${this.buildDeserialize()}`;
         content += `${this.buildDeserializeByteBoxes()}`;
         content += `${this.buildDeserializeAsClass()}`;
@@ -84,6 +87,7 @@ export class Writter {
         let content = "";
         content += `export class ${this.translator.class}`;
         content += this.translator.extends ? ` extends ${this.translator.extends}` : ``;
+        content += this.translator.implements ? ` implements ${this.translator.implements.join(", ")}` : ``;
         content += `\n`;
         content += `{\n`;
         content += `\n`;
@@ -151,6 +155,36 @@ export class Writter {
         return content;
     }
 
+    private buildProtocolId() {
+        if (this.translator.fileData.type == E_DIR_TYPES.MESSAGES) {
+            return this.buildMessageId();
+        } else if (this.translator.fileData.type == E_DIR_TYPES.TYPES) {
+            return this.buildTypeId();
+        } else {
+            throw new Error("Unknown file type");
+        }
+    }
+
+    private buildMessageId() {
+        let content = "";
+        content += `    public getMessageId()\n`;
+        content += `    {\n`;
+        content += `        return ${this.translator.class}.protocolId;\n`;
+        content += `    }\n`;
+        content += `\n`;
+        return content;
+    }
+
+    private buildTypeId() {
+        let content = "";
+        content += `    public getTypeId()\n`;
+        content += `    {\n`;
+        content += `        return ${this.translator.class}.protocolId;\n`;
+        content += `    }\n`;
+        content += `\n`;
+        return content;
+    }
+
     private buildInitializer() {
         let content = "";
         content += `    ${this.translator.initializer.method}\n`;
@@ -184,6 +218,27 @@ export class Writter {
         }
         return content;
     }
+
+    private buildSerialize() {
+        let content = "";
+        content += `    public serialize(output: ICustomDataOutput)\n`;
+        content += `    {\n`;
+        content += `        this.serializeAs_${this.translator.class}(output);\n`;
+        content += `    }\n`;
+        content += `\n`;
+        return content;
+    }
+
+    private buildSerializeAsClass() {
+        let content = "";
+        content += `    public serializeAs_${this.translator.class}(output: ICustomDataOutput)\n`;
+        content += `    {\n`;
+        content += `${this.translator.serializer.content ?? ""}\n`;
+        content += `    }\n`;
+        content += `\n`;
+        return content;
+    }
+
 
     private buildDeserialize() {
         let content = "";
