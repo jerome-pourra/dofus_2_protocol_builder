@@ -69,6 +69,7 @@ export class Writter {
         content += `${this.buildProtocol()}`;
         content += `${this.buildVarList()}`;
         content += `${this.buildConstructor()}`;
+        content += `${this.buildProtocolId()}`;
         content += `${this.buildInitializer()}`;
         content += `${this.buildPack()}`;
         content += `${this.buildUnpack()}`;
@@ -153,6 +154,36 @@ export class Writter {
         return content;
     }
 
+    private buildProtocolId() {
+        if (this.translator.fileData.type == E_DIR_TYPES.MESSAGES) {
+            return this.buildMessageId();
+        } else if (this.translator.fileData.type == E_DIR_TYPES.TYPES) {
+            return this.buildTypeId();
+        } else {
+            throw new Error("Unknown file type");
+        }
+    }
+
+    private buildMessageId() {
+        let content = "";
+        content += `    public getMessageId()\n`;
+        content += `    {\n`;
+        content += `        return ${this.translator.class}.protocolId;\n`;
+        content += `    }\n`;
+        content += `\n`;
+        return content;
+    }
+
+    private buildTypeId() {
+        let content = "";
+        content += `    public getTypeId()\n`;
+        content += `    {\n`;
+        content += `        return ${this.translator.class}.protocolId;\n`;
+        content += `    }\n`;
+        content += `\n`;
+        return content;
+    }
+
     private buildInitializer() {
         let content = "";
         content += `    ${this.translator.initializer.method}\n`;
@@ -201,7 +232,7 @@ export class Writter {
         let content = "";
         content += `    public serializeAs_${this.translator.class}(output: ICustomDataOutput)\n`;
         content += `    {\n`;
-        // TODO: Implement serializeAsClass
+        content += `${this.translator.serializer.content ?? ""}\n`;
         content += `    }\n`;
         content += `\n`;
         return content;

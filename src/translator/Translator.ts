@@ -8,6 +8,7 @@ import { BASE_DIR_AS, INCLUDE_IMPORTS } from "../constants";
 import { TBrowserFileData } from "../FilesBrowser";
 import path from "path";
 import { Initializer } from "./Initializer";
+import { Serializer } from "./Serializer";
 
 export type TypePublicVar = { name: string, type?: string, typeVector?: string, subTypeVector?: string, value?: string };
 export type TypeImport = { class: string, pathList: Array<string> };
@@ -28,6 +29,7 @@ export class Translator extends TranslatorTypes {
     public pack?: string;
     public unpack?: string;
     public initializer?: Initializer;
+    public serializer?: Serializer;
 	public deserializer: Deserializer;
 	public byteBoxes: ByteBoxes;
 
@@ -46,6 +48,7 @@ export class Translator extends TranslatorTypes {
         this.setInitializer();
         // this.setPack();
         this.setUnpack();
+        this.setSerializeAs();
 		this.setDeserializeAs();
 		this.setDeserializeByteBoxes();
 
@@ -213,6 +216,20 @@ export class Translator extends TranslatorTypes {
 		}
 
 	}
+
+    public setSerializeAs() {
+
+        let regexp = new RegExp(`public\\s+function\\s+serializeAs_${this.class}`, "g");
+		let matches = regexp.exec(this.content);
+
+		if (matches !== null) {
+			let content = GetBracketContent(this.content, matches.index);
+			this.serializer = new Serializer(content, this);
+		} else {
+			console.error("ProtocolTranslator.setSerializeAs() -> aucune méthode de sérialization n'a été trouvé fichier:" + this.fileData.fullpath);
+		}
+
+    }
 
 	public setDeserializeAs() {
 

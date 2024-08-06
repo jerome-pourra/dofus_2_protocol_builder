@@ -25,8 +25,8 @@ import fs from "fs";
 
 let filesBrowser = new FilesBrowser();
 // let filesList = filesBrowser.browseDirectory(BASE_DIR_AS + "/scripts/com/ankamagames/dofus/network/types/game/context/fight/");
-// let filesList = filesBrowser.browseDirectory(BASE_DIR_AS + "/scripts/com/ankamagames/dofus/network/messages/common/basic");
-let filesList = filesBrowser.browseDirectory(BASE_DIR_AS + "/scripts/com/ankamagames/dofus/network/");
+let filesList = filesBrowser.browseDirectory(BASE_DIR_AS + "/scripts/com/ankamagames/dofus/network/messages/common/basic");
+// let filesList = filesBrowser.browseDirectory(BASE_DIR_AS + "/scripts/com/ankamagames/dofus/network/");
 
 filesList.forEach(file => {
 
