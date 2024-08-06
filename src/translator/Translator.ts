@@ -22,7 +22,7 @@ export class Translator extends TranslatorTypes {
 	public importList: Array<TypeImport> = Array<TypeImport>();
 	public class: string;
 	public extends: string;
-	public implements: string;
+	public implements: Array<string>;
 	public protocol: string;
 	public varList: Array<TypePublicVar> = [];
 	public construct: Constructor;
@@ -133,7 +133,9 @@ export class Translator extends TranslatorTypes {
 						this.addUseType(this.extends);
 						break;
 					case "implements":
-						this.implements = matches[2];
+                        this.implements = matches[2].split(",").map((implement: string) => {
+                            return implement.trim();
+                        });
 						break;
 				}
 			}

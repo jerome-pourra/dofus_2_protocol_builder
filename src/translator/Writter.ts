@@ -3,7 +3,7 @@ import { Translator, TypePublicVar } from "./Translator";
 import { GetRelativePath } from "../functions";
 import { BASE_DIR_AS, BASE_DIR_TS, E_DIR_TYPES, INCLUDE_IMPORTS_PATH } from "../constants";
 
-export class Writter {
+export class Writter{
 
     public content: string;
     public translator: Translator;
@@ -87,6 +87,7 @@ export class Writter {
         let content = "";
         content += `export class ${this.translator.class}`;
         content += this.translator.extends ? ` extends ${this.translator.extends}` : ``;
+        content += this.translator.implements ? ` implements ${this.translator.implements.join(", ")}` : ``;
         content += `\n`;
         content += `{\n`;
         content += `\n`;
