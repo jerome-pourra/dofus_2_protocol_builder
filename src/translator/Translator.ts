@@ -9,6 +9,7 @@ import { TBrowserFileData } from "../FilesBrowser";
 import path from "path";
 import { Initializer } from "./Initializer";
 import { Serializer } from "./Serializer";
+import { ProtocolListExtracted } from "../ProtocolExtractor";
 
 export type TypePublicVar = { name: string, type?: string, typeVector?: string, subTypeVector?: string, value?: string };
 export type TypeImport = { class: string, pathList: Array<string> };
@@ -32,8 +33,9 @@ export class Translator extends TranslatorTypes {
     public serializer?: Serializer;
 	public deserializer: Deserializer;
 	public byteBoxes: ByteBoxes;
+    public endpointClient: boolean;
 
-	public constructor(fileData: TBrowserFileData) {
+	public constructor(fileData: TBrowserFileData, extractedList: ProtocolListExtracted) {
 
 		super();
 		this.fileData = fileData;
@@ -42,6 +44,7 @@ export class Translator extends TranslatorTypes {
 		this.setImports();
 		this.setSpecialImports();
 		this.setInfos();
+        this.setEnpointClient(extractedList);
 		this.setProtocol();
 		this.setVarList();
 		this.setConstructor();
@@ -143,6 +146,10 @@ export class Translator extends TranslatorTypes {
 		}
 
 	}
+
+    public setEnpointClient(extractedList: ProtocolListExtracted) {
+        this.endpointClient = extractedList.some((extracted) => extracted.name === this.class);
+    }
 
 	public setProtocol() {
 

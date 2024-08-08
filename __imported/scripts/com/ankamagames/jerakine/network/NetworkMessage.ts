@@ -1,3 +1,4 @@
+import { AnkSocketEndpoint } from "../../../../network/AnkSocket";
 import { CustomDataWrapper } from "./CustomDataWrapper";
 import { ICustomDataInput } from "./ICustomDataInput";
 import { ICustomDataOutput } from "./ICustomDataOutput";
@@ -24,14 +25,25 @@ export abstract class NetworkMessage implements INetworkMessage {
         throw new Error("Abstract method call");
     }
 
-    public writePacket(output: ICustomDataOutput, id: number, data: CustomDataWrapper): void {
+    public writePacketClient(output: ICustomDataOutput, id: number, data: CustomDataWrapper): void {
+        this.writePacket(output, id, data, AnkSocketEndpoint.CLIENT);
+    }
+
+    public writePacketServer(output: ICustomDataOutput, id: number, data: CustomDataWrapper): void {
+        this.writePacket(output, id, data, AnkSocketEndpoint.SERVER);
+    }
+
+    public writePacket(output: ICustomDataOutput, id: number, data: CustomDataWrapper, endpoint: AnkSocketEndpoint): void {
 
         let high: number = 0;
         let low: number = 0;
         let typeLen: number = NetworkMessage.computeTypeLen(data.length);
 
         output.writeShort(NetworkMessage.subComputeStaticHeader(id, typeLen));
-        output.writeUnsignedInt(this._instance_id);
+
+        if (endpoint === AnkSocketEndpoint.SERVER) {
+            output.writeUnsignedInt(this._instance_id);
+        }
 
         switch (typeLen) {
             case 0:
