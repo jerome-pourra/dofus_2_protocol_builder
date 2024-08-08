@@ -5,13 +5,32 @@ import { FilesBrowser } from "./FilesBrowser";
 import { BASE_DIR_AS, BASE_DIR_TS, E_DIR_TYPES, MESSAGE_LIST, TYPES_LIST } from "./constants";
 import { Writter } from "./translator/Writter";
 import { GetRelativePath } from "./functions";
+import { ExtractTypeEnum, ProtocolExtractor } from "./ProtocolExtractor";
+
+// TODO a refacto
+let extractMessages = ProtocolExtractor.extract(
+    ProtocolExtractor.getContent(BASE_DIR_AS + "/scripts/com/ankamagames/dofus/network/MessageReceiver.as"), 
+    ExtractTypeEnum.MESSAGES
+);
+
+let extractProtocol = ProtocolExtractor.extract(
+    ProtocolExtractor.getContent(BASE_DIR_AS + "/scripts/com/ankamagames/dofus/network/ProtocolTypeManager.as"),
+    ExtractTypeEnum.TYPES
+);
 
 let filesBrowser = new FilesBrowser();
 let filesList = filesBrowser.browseDirectory(BASE_DIR_AS + "/scripts/com/ankamagames/dofus/network/");
 
 filesList.forEach(file => {
 
-    let translator = new Translator(file);
+    let translator = null;
+
+    if (file.type == E_DIR_TYPES.MESSAGES) {
+        translator = new Translator(file, extractMessages)
+    } else if (file.type == E_DIR_TYPES.TYPES) {
+        translator = new Translator(file, extractProtocol)
+    }
+
     let writter = new Writter(translator);
     writter.build();
     writter.write();

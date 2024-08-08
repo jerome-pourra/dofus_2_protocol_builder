@@ -67,9 +67,11 @@ export class Writter{
         let content = "";
         content += `${this.buildClassInfos()}`;
         content += `${this.buildProtocol()}`;
+        content += `${this.buildEnpoints()}`;
         content += `${this.buildVarList()}`;
         content += `${this.buildConstructor()}`;
         content += `${this.buildProtocolId()}`;
+        content += `${this.buildGetterEnpoints()}`;
         content += `${this.buildInitializer()}`;
         content += `${this.buildPack()}`;
         content += `${this.buildUnpack()}`;
@@ -100,6 +102,14 @@ export class Writter{
             content += `\tpublic static readonly protocolId: number = ${this.translator.protocol};\n`;
             content += `\n`;
         }
+        return content;
+    }
+
+    private buildEnpoints() {
+        let content = "";
+        content += `\tpublic static readonly endpointClient: boolean = ${this.translator.endpointClient};\n`;
+        content += `\tpublic static readonly endpointServer: boolean = ${!this.translator.endpointClient};\n`;
+        content += `\n`;
         return content;
     }
 
@@ -175,6 +185,21 @@ export class Writter{
         return content;
     }
 
+    private buildGetterEnpoints() {
+        let content = "";
+        content += `    public isEndpointClient()\n`;
+        content += `    {\n`;
+        content += `        return ${this.translator.class}.endpointClient;\n`;
+        content += `    }\n`;
+        content += `\n`;
+        content += `    public isEndpointServer()\n`;
+        content += `    {\n`;
+        content += `        return ${this.translator.class}.endpointServer;\n`;
+        content += `    }\n`;
+        content += `\n`;
+        return content;
+    }
+
     private buildTypeId() {
         let content = "";
         content += `    public getTypeId()\n`;
@@ -202,7 +227,7 @@ export class Writter{
             content += `    {\n`;
             content += `        let data: CustomDataWrapper = new CustomDataWrapper();\n`;
             content += `        this.serialize(data);\n`;
-            content += `        this.writePacket(output, this.getMessageId(), data);\n`;
+            content += `        this.isEndpointClient() ? this.writePacketClient(output, this.getMessageId(), data) : this.writePacketServer(output, this.getMessageId(), data);\n`;
             content += `    }\n`;
             content += `\n`;
         }
